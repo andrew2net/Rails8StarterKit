@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html class="h-full">
+  <head>
+    <title>Admin Panel</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "@fortawesome/fontawesome-free/css/all.min" %>
+
+    <%= javascript_importmap_tags %>
+  </head>
+  <!-- Sidebar navigation -->
+  <body class="flex h-full" data-controller="sidebar">
+    <div data-sidebar-target="sidebar" class="bg-gray-800 text-white w-64 space-y-6 px-2 absolute inset-y-0 transform -translate-x-full md:relative md:translate-x-0 transition-all duration-200 ease-in-out z-10 h-full">
+      <%= link_to admin_path, class: "text-white flex items-center space-x-2 p-4" do %>
+        <span class="text-2xl font-extrabold mt-6 min-h-8"><span data-sidebar-target="text">Admin Panel</span></span>
+      <% end %>
+
+      <button class="text-gray-500 focus:outline-none absolute top-5 right-5 z-20" data-action="click->sidebar#toggleMinimize">
+        <svg data-sidebar-target="minIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        <svg data-sidebar-target="minIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </button>
+
+      <nav>
+        <ul>
+          <li><%= link_to admin_path, class: "block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700" do %>
+            <i class="fas fa-tachometer-alt"></i> <span data-sidebar-target="text">Dashboard</span>
+          <% end %></li>
+          <li><%= link_to admin_users_path, class: "block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700" do %>
+            <i class="fas fa-users"></i> <span data-sidebar-target="text">Users</span>
+          <% end %></li>
+          <li><%= link_to session_path, data: { turbo_method: :delete }, class: "block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700" do %>
+            <i class="fas fa-sign-out-alt"></i> <span data-sidebar-target="text">Sign out</span>
+          <% end %></li>
+        </ul>
+      </nav>
+    </div>
+
+    <button data-action="click->sidebar#toggle" class="md:hidden text-gray-500 focus:outline-none absolute top-3 left-4 z-20">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+      </svg>
+    </button>
+
+    <!-- Main content -->
+    <div class="flex-1 p-10 text-2xl font-bold">
+      <%= yield %>
+    </div>
+  </body>
