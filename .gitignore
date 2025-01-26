@@ -54,3 +54,4 @@
 /coverage/
 
 /.vscode/*
+/spec/examples.txt
