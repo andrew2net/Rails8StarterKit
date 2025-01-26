@@ -14,6 +14,8 @@ This is a starter kit for Ruby on Rails 8 applications. It includes the followin
 
 - Ruby 3.3.3
 - Rails 8.0.1
+- Node 23.0.0
+- Yarn 1.22.22
 
 ## Installation
 
