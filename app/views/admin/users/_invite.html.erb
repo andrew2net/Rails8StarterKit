@@ -1,0 +1,29 @@
+<%= turbo_frame_tag "modal" do %>
+  <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full relative">
+    <div class="px-4 py-5 sm:p-6">
+      <h2 class="text-xl font-bold mb-4">Invite User</h2>
+      <button data-action="click->modal#close" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none">
+        <i class="fas fa-times"></i>
+      </button>
+      <%= form_with(model: [:admin, user], local: false, data: { turbo_frame: "modal", action: "modal#submit"}) do |form| %>
+        <% if user.errors.any? %>
+          <div class="mb-4">
+            <h3 class="text-red-600 font-bold text-sm">Errors:</h3>
+            <ul class="list-disc list-inside text-red-600 text-sm">
+              <% user.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+        <div class="mt-5 sm:mt-6">
+          <%= form.label :email_address, class: "block text-gray-700 text-sm font-medium mb-2" %>
+          <%= form.text_field :email_address, class: "input-field" %>
+        </div>
+        <div class="mt-5 sm:mt-6">
+          <%= form.submit "Save & Send", class: "button-submit" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

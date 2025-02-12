@@ -1,4 +1,50 @@
-<div>
-  <h1 class="font-bold text-4xl">Admin::Users#index</h1>
-  <p>Find me in app/views/admin/users/index.html.erb</p>
+<div class="flex justify-between items-center mb-4">
+  <h1 class="text-3xl font-bold">Users</h1>
+  <%= link_to new_admin_user_path(format: :turbo_stream), class: 'button-submit',
+      data: { turbo_frame: "modal", turbo_prefetch: false } do %>
+    <i class="fas fa-plus"></i>
+  <% end %>
 </div>
+
+<div class="overflow-x-auto">
+  <table class="min-w-full bg-white border border-gray-200">
+    <thead>
+      <tr class="bg-gray-100">
+        <th class="table-header">ID</th>
+        <th class="table-header">Name</th>
+        <th class="table-header">Email</th>
+        <th class="table-header">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="bg-white">
+      <% @users.each do |user| %>
+        <tr>
+          <td class="table-cell"><%= user.id %></td>
+          <td class="table-cell"><%= user.email_address %></td>
+          <td class="table-cell"><%= user.email_address %></td>
+          <td class="table-cell">
+            <%= link_to admin_user_path(user, format: :turbo_stream), class: 'text-gray-500 hover:text-gray-700',
+                data: { turbo_frame: "modal", turbo_prefetch: false } do %>
+              <i class="fas fa-eye"></i>
+            <% end %>
+            <%= link_to edit_admin_user_path(user, format: :turbo_stream), class: 'text-gray-500 hover:text-gray-700 mx-2',
+                data: { turbo_frame: "modal", turbo_prefetch: false } do %>
+              <i class="fas fa-edit"></i>
+            <% end %>
+            <%= link_to admin_user_path(user), method: :delete, data: { confirm: 'Are you sure?' },
+                                               class: 'text-gray-500 hover:text-gray-700' do %>
+              <i class="fas fa-trash"></i>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div data-controller="modal" class="hidden fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
+  <%= turbo_frame_tag "modal", data: { modal_target: "content" } do %>
+  <% end %>
+  <div data-modal-target="loader" class="loader">Loading...</div>
+</div>
+

@@ -1,0 +1,29 @@
+<%= turbo_frame_tag "modal" do %>
+  <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full relative">
+    <div class="px-4 py-5 sm:p-6">
+      <h2 class="text-xl font-bold mb-4">Edit User</h2>
+      <button data-action="click->modal#close" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none">
+        <i class="fas fa-times"></i>
+      </button>
+      <%= form_with(model: [:admin, user], local: false, data: { action: "modal#submit"}) do |form| %>
+        <div class="mt-5 sm:mt-6">
+          <%= form.label :email_address, class: "block text-gray-700 text-sm font-medium mb-2" %>
+          <%= form.text_field :email_address, class: "input-field" %>
+        </div>
+        <div calss="mt-5 sm:mt-6">
+          <%= form.fields_for :roles do |role_form| %>
+            <% UserRole.roles.each do |role, id| %>
+              <div class="mt-2">
+                <%= role_form.checkbox id, { checked: user.roles.map(&:role).include?(role) }, role, nil %>
+                <%= role_form.label id, role, class: "text-gray-700 text-sm ml-2" %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+        <div class="mt-5 sm:mt-6">
+          <%= form.submit "Save", class: "button-submit" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

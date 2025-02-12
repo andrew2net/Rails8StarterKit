@@ -1,11 +1,10 @@
 import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
-  static targets = ["sidebar", "text", "minIcon"];
+  static targets = ["sidebar", "text", "minIcon", "maxIcon"];
 
   connect() {
     this.sidebarTarget.addEventListener("transitionend", this.handlesTransitionEnd.bind(this));
-    this.loadSidebatState();
   }
 
   toggle() {
@@ -18,12 +17,13 @@ export default class extends Controller {
     if (this.sidebarTarget.classList.contains("w-16")) {
       this.textTargets.forEach(el => el.classList.add("hidden"));
     }
-    localStorage.setItem("sidebarMinimized", isMinimized);
+    this.setCookie("sidebar_minimized", isMinimized, 7);
   }
 
   handlesTransitionEnd(event) {
     if (event.propertyName === 'width') {
-      this.minIconTargets.forEach(el => el.classList.toggle("hidden"));
+      this.minIconTarget.classList.toggle("hidden");
+      this.maxIconTarget.classList.toggle("hidden");
 
       if (this.sidebarTarget.classList.contains("w-64")) {
         this.textTargets.forEach(el => el.classList.remove("hidden"));
@@ -31,18 +31,13 @@ export default class extends Controller {
     }
   }
 
-  loadSidebatState() {
-    const isMinimized = localStorage.getItem("sidebarMinimized") === "true";
-    if (isMinimized) {
-      this.sidebarTarget.classList.remove("transition-all", "duration-200", "ease-in-out");
-
-      this.sidebarTarget.classList.add("w-16");
-      this.sidebarTarget.classList.remove("w-64");
-      this.textTargets.forEach(el => el.classList.add("hidden"));
-      this.minIconTargets.forEach(el => el.classList.toggle("hidden"));
-
-      void this.sidebarTarget.offsetWidth; // Trigger reflow
-      this.sidebarTarget.classList.add("transition-all", "duration-200", "ease-in-out");
+  setCookie(name, value, days) {
+    let expires = "";
+    if (days) {
+      const date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = "; expires=" + date.toUTCString();
     }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
   }
 }

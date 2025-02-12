@@ -1,0 +1,55 @@
+@import 'tailwindcss';
+
+@config '../../../config/tailwind.config.js';
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+/*
+
+@layer components {
+  .btn-primary {
+    @apply py-2 px-4 bg-blue-200;
+  }
+}
+
+*/
+
+.input-custom {
+  @apply w-full border border-gray-300 rounded-sm focus:outline-hidden focus:ring-2 focus:ring-blue-300 p-2;
+}
+
+.link-custom {
+  @apply text-blue-500 hover:text-blue-700;
+}
+
+.table-header {
+  @apply px-6 py-3 border-b border-gray-200 text-left text-sm leading-4 font-medium text-gray-600 tracking-wider;
+}
+
+.table-cell {
+  @apply px-6 py-4 whitespace-nowrap border-b border-gray-200 text-sm;
+}
+
+.input-field {
+  @apply shadow-sm appearance-none border rounded-sm w-full py-2 px-3 text-gray-700 text-sm leading-tight focus:outline-hidden focus:ring-2 focus:ring-blue-300;
+}
+
+.button-submit {
+  @apply py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold rounded-sm focus:outline-hidden focus:ring-2 focus:ring-blue-300 transition duration-300 ease-in-out hover:scale-105;
+}
