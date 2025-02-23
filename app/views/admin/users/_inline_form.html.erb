@@ -1,0 +1,20 @@
+<%= form_with model: [:admin, user], local: false, style: "display: contents;" do |form| %>
+<div class="grid grid-cols-[100px_2fr_1fr_200px]">
+  <div class="p-2 border-b"><%= user.id %></div>
+  <div class="p-2 border-b"><%= form.text_field :email_address, class: "input-field w-full" %></div>
+  <div class="p-2 border-b">
+    <%= form.fields_for :roles do |role_form| %>
+      <% UserRole.roles.each do |role, id| %>
+        <div class="mt-2">
+          <%= role_form.checkbox id, { checked: user.roles.map(&:role).include?(role) }, role, nil %>
+          <%= role_form.label id, role, class: "text-gray-700 text-sm ml-2" %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="p-2 border-b flex justify-end space-x-2">
+    <%= form.submit "Save", class: "button-submit" %>
+    <%= link_to "Cancel", admin_users_path, class: "button-cancel" %>
+  </div>
+</div>
+<% end %>

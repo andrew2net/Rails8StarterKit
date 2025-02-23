@@ -54,7 +54,14 @@
     </button>
 
     <!-- Main content -->
-    <div class="flex-1 p-10 text-2xl font-bold">
+    <div class="flex-1 p-10">
       <%= yield %>
     </div>
+
+    <div data-controller="modal" class="hidden fixed inset-0 flex items-center justify-center bg-gray-400 bg-opacity-0">
+      <%= turbo_frame_tag "modal", data: { modal_target: "content" } do %>
+      <% end %>
+      <div data-modal-target="loader" class="loader">Loading...</div>
+    </div>
   </body>
+</html>

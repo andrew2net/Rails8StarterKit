@@ -20,46 +20,17 @@ export default class extends Controller {
   }
 
   hideLoader(event) {
-    this.loaderTarget.classList.add("hidden");
-    this.contentTarget.classList.remove("hidden");
+    if (event.detail.fetchResponse.statusCode === 204) {
+      this.close(event);
+    } else {
+      this.loaderTarget.classList.add("hidden");
+      this.contentTarget.classList.remove("hidden");
+    }
   }
 
   close(event) {
     event.preventDefault();
     this.element.classList.add("hidden");
     this.contentTarget.innerHTML = "";
-  }
-
-  submit(event) {
-    event.preventDefault();
-    this.showLoader(event);
-    const form = event.target;
-    const formData = new FormData(form);
-    const url = form.action;
-
-    fetch(url, {
-      method: "POST",
-      body: formData,
-      headers: { "Accept": "text/vnd.turbo-stream.html" }
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.text();
-    })
-    .then(html => {
-      this.hideLoader(event);
-      if (html.includes('id="modal"')) {
-        this.contentTarget.innerHTML = html;
-        this.element.classList.remove("hidden");
-      } else {
-        this.close(event);
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      this.hideLoader(event);
-    });
   }
 }

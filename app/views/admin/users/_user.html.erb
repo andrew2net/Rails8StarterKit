@@ -6,8 +6,8 @@
         <i class="fas fa-times"></i>
       </button>
       <p><strong>ID:</strong> <%= user.id %></p>
-      <p><strong>Name:</strong> <%= user.email_address %></p>
       <p><strong>Email:</strong> <%= user.email_address %></p>
+      <p><strong>Roles:</strong> <%= user.roles.map(&:role).join(", ") %></p>
       <div class="mt-5 sm:mt-6">
       </div>
     </div>

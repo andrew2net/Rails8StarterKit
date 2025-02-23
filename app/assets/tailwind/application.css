@@ -39,17 +39,39 @@
 }
 
 .table-header {
-  @apply px-6 py-3 border-b border-gray-200 text-left text-sm leading-4 font-medium text-gray-600 tracking-wider;
+  @apply px-6 py-3 border-b border-gray-200 text-left leading-4 font-bold text-gray-600 tracking-wider;
 }
 
 .table-cell {
-  @apply px-6 py-4 whitespace-nowrap border-b border-gray-200 text-sm;
+  @apply px-6 py-4 whitespace-nowrap border-b border-gray-200;
 }
 
 .input-field {
-  @apply shadow-sm appearance-none border rounded-sm w-full py-2 px-3 text-gray-700 text-sm leading-tight focus:outline-hidden focus:ring-2 focus:ring-blue-300;
+  @apply shadow-sm appearance-none border rounded-sm w-full py-2 px-3 text-gray-700 leading-tight focus:outline-hidden focus:ring-2 focus:ring-blue-300;
+}
+
+.input-field:disabled {
+  @apply bg-gray-200 cursor-not-allowed;
 }
 
 .button-submit {
-  @apply py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold rounded-sm focus:outline-hidden focus:ring-2 focus:ring-blue-300 transition duration-300 ease-in-out hover:scale-105;
+  @apply py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-sm focus:outline-hidden focus:ring-2 focus:ring-blue-300 transition duration-300 ease-in-out hover:scale-105;
+}
+
+nav.pagination {
+  @apply flex items-center m-10;
+}
+
+.pagination > .first, .pagination > .last, .pagination > .next, .pagination > .prev {
+  @apply bg-white hover:bg-gray-100 text-gray-800 font-light py-2 px-4 border border-gray-400 rounded shadow;
+}
+
+.pagination > span.page {
+  &.current {
+    @apply bg-indigo-400 text-white px-4 py-3 rounded;
+  }
+
+  & > a {
+    @apply px-4 text-gray-800 font-light;
+  }
 }
