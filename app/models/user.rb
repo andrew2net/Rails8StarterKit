@@ -42,6 +42,14 @@ class User < ApplicationRecord
     end
   end
 
+  def update_roles(roles)
+    self.roles = roles.reject(&:empty?).map { |r| UserRole.new(role: r) }
+    true
+  rescue ArgumentError => e
+    self.errors.add(:roles, e.message)
+    false
+  end
+
   private
 
   def skip_password_validation?

@@ -59,7 +59,7 @@
 }
 
 nav.pagination {
-  @apply flex items-center m-10;
+  @apply flex items-center my-5;
 }
 
 .pagination > .first, .pagination > .last, .pagination > .next, .pagination > .prev {

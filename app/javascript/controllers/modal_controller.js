@@ -19,12 +19,13 @@ export default class extends Controller {
     this.contentTarget.classList.add("hidden");
   }
 
-  hideLoader(event) {
-    if (event.detail.fetchResponse.statusCode === 204) {
-      this.close(event);
-    } else {
+  async hideLoader(event) {
+    const response = await event.detail.fetchResponse.responseText;
+    if (response.includes('target="modal"')) {
       this.loaderTarget.classList.add("hidden");
       this.contentTarget.classList.remove("hidden");
+    } else {
+      this.close(event);
     }
   }
 

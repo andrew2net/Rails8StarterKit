@@ -1,0 +1,3 @@
+<%= turbo_stream.append "users_list_body" do %>
+  <%= render partial: "user_row", locals: { user: @user } %>
+<% end %>

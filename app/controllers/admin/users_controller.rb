@@ -18,15 +18,10 @@ class Admin::UsersController < Admin::BaseController
     @user = User.invite(params[:user][:email_address])
     respond_to do |format|
       if @user.errors.empty?
-        format.turbo_stream #do
-        #   render turbo_stream: turbo_stream.update("users_list", partial: "users", locals: { user: User.all })
-        # end
+        format.turbo_stream { render :create, status: :created }
         format.html { redirect_to admin_users_path, notice: "User was successfully created." }
       else
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.update("modal", partial: "invite", locals: { user: @user }),
-                 status: :unprocessable_entity
-        end
+        format.turbo_stream { render :new, status: :unprocessable_entity }
         format.html { render :new }
       end
     end
@@ -35,12 +30,6 @@ class Admin::UsersController < Admin::BaseController
   def show
     respond_to do |format|
       format.html # do
-        # if turbo_frame_request?
-        #   render partial: "user", locals: { user: @user }
-        # else
-        #   render :show
-        # end
-      # end
       format.turbo_stream
     end
   end
@@ -54,27 +43,17 @@ class Admin::UsersController < Admin::BaseController
 
   def update
     respond_to do |format|
-      if update_user_roles
+      if @user.update_roles user_params[:roles]
         format.html { redirect_to [ :admin, @user ], notice: "User was successfully updated." }
         format.turbo_stream
       else
         format.html { render :edit }
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.update("modal", partial: "form", locals: { user: @user }),
-                 status: :unprocessable_entity
-        end
+        format.turbo_stream { render :edit, status: :unprocessable_entity }
       end
     end
   end
 
   private
-
-  def update_user_roles
-    @user.roles = user_params[:roles].reject(&:empty?).map { |r| UserRole.create(role: r) }
-  rescue ArgumentError => e
-    @user.errors.add(:roles, e.message)
-    false
-  end
 
   def set_user
     @user = User.find(params[:id])
@@ -86,9 +65,5 @@ class Admin::UsersController < Admin::BaseController
 
   def user_params
     params.expect(user: [ roles: [] ])
-  end
-
-  def turbo_frame_request?
-    request.headers["Turbo-Frame"].present?
   end
 end
