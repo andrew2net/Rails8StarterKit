@@ -41,7 +41,7 @@ gem "thruster", require: false
 # gem "image_processing", "~> 1.2"
 
 gem "tailwindcss-rails", "~> 4.0"
-gem "pundit", "~> 2.4"
+gem "pundit", "~> 2.5"
 gem "kaminari", "~> 1.2"
 
 group :development, :test do
